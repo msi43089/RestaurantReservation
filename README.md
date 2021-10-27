@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Capstone: Restaurant Reservation System
 
 > You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
@@ -398,3 +399,6 @@ so that reservations are accurate and current.
    - Clicking "Cancel" makes no changes, then display the previous page.
 
 > **Hint** The same validation used for create applies to editing a reservation. The form and the API for updating a reservation must not allow the user to violate any of the rules specified when creating a reservation.
+=======
+# RestaurantReservation
+>>>>>>> 42c98141e745cc01dd9686771e0b60c6a8acda29
