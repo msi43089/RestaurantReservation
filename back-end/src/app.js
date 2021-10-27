@@ -11,12 +11,18 @@ const reservationsRouter = require("./reservations/reservations.router");
 
 const app = express();
 
-app.use(cors());
+router.get('/', cors(), (req, res) => {
+    res.json({ message: 'Hello Heroku!' });
+  })
+  
+  app.use('/', router);
+
+/*app.use(cors());
 app.use(express.json());
 
 app.use("/reservations", reservationsRouter);
 
 app.use(notFound);
-app.use(errorHandler);
+app.use(errorHandler);*/
 
 module.exports = app;
