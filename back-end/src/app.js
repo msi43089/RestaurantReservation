@@ -10,6 +10,7 @@ const notFound = require("./errors/notFound");
 const reservationsRouter = require("./reservations/reservations.router");
 
 const app = express();
+const router = express.Router()
 
 router.get('/', cors(), (req, res) => {
     res.json({ message: 'Hello Heroku!' });
