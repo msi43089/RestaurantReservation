@@ -70,7 +70,6 @@ function CreateReservation (){
                 <label htmlFor="mobile-number">Mobile Number</label>
                 <input  name="mobile_number"
                         type="tel" 
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         className="form-control" 
                         id="mobile_number" 
                         placeholder="xxx-xxx-xxxx" 

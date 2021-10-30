@@ -17,18 +17,17 @@ const hasRequiredProperties = hasProperties(validProperties)
 function hasOnlyValidProperties(req, res, next){
   const { data = {} } = req.body
   const invalidFields = Object.keys(data).filter((field) => !validProperties.includes(field))
-  /*if(invalidFields.length > 0){
+  if(invalidFields.length > 0){
     return next({
       status: 400,
       message: `Invalid field(s): ${invalidFields.join(",")}`
     })
-  }*/
+  }
   next()
 }
 
 async function checkId(req, res, next){
   const reservationId = req.params.reservation_id
-  console.log(reservationId)
   const data = await reservationsService.read(reservationId)
   if(data){
     res.locals.reservation = data
@@ -37,6 +36,43 @@ async function checkId(req, res, next){
     next({
       status:404,
       message: `Reservation Id: ${reservationId} does not exist`
+    })
+  }
+}
+
+function checkDate(req, res, next){
+  const { reservation_date } = req.body.data
+  const validDate = Date.parse(reservation_date)
+  if(validDate){
+    next()
+  } else {
+    next({
+      status: 400,
+      message: `reservation_date ${reservation_date} invalid`
+    })
+  }
+}
+
+function checkTime(req,res, next){
+  const { reservation_time } = req.body.data
+  if(!/[0-9]{2}:[0-9]{2}/.test(reservation_time)){
+    next({
+      status: 400,
+      message: `reservation_time is not valid`
+    })
+  } else {
+    next()
+  }
+}
+
+function isNumber(req, res, next){
+  const { people } = req.body.data
+  if(typeof(people) === "number"){
+    next()
+  } else {
+    next({
+      status: 400,
+      message: `people must be a number`
     })
   }
 }
@@ -52,11 +88,11 @@ async function list(req, res) {
 
 async function create(req, res, next){
     const data = await reservationsService.create(req.body.data)
-    res.sendStatus(201)
+    res.status(201).json({ data: data })
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [hasOnlyValidProperties, hasRequiredProperties, asyncErrorBoundary(create)],
+  create: [hasOnlyValidProperties, hasRequiredProperties, checkDate, checkTime, isNumber, asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(checkId), read]
 };
