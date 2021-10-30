@@ -3,11 +3,6 @@ import { useHistory } from "react-router"
 import { postReservations } from "../utils/api"
 
 
-
-
-
-
-
 function CreateReservation (){
     const history = useHistory()
     const initialState = {
@@ -19,7 +14,6 @@ function CreateReservation (){
         people: ""
     }
     const [formData, setFormData ] = useState({...initialState})
-
 
 
     function handleChange({target}){
