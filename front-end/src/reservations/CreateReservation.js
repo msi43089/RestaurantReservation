@@ -4,7 +4,7 @@ import { postReservations } from "../utils/api"
 
 
 
-//goback not working properly
+
 
 
 
@@ -35,7 +35,7 @@ function CreateReservation (){
             
         }
         postData()
-        history.push("/dashboard")
+        history.push(`/dashboard?date=${formData.reservation_date}`)
         
     }
     console.log(formData)
@@ -63,7 +63,8 @@ function CreateReservation (){
                         id="last_name" 
                         placeholder="Enter Last Name"
                         onChange={handleChange}
-                        value={formData.lastName} />
+                        value={formData.lastName}
+                        required />
             </div>
             <div className="form-group">
                 <label htmlFor="mobile-number">Mobile Number</label>
@@ -74,7 +75,8 @@ function CreateReservation (){
                         id="mobile_number" 
                         placeholder="xxx-xxx-xxxx" 
                         onChange={handleChange}
-                        value={formData.mobileNumber}/>
+                        value={formData.mobileNumber}
+                        required/>
             </div>
             <div className="form-group">
                 <label htmlFor="reservation-date">Reservation Date</label>
@@ -82,9 +84,11 @@ function CreateReservation (){
                         type="date" 
                         className="form-control" 
                         id="reservation_date" 
-                        placeholder="Enter Date"
+                        placeholder="YYYY-MM-DD"
+                        pattern="\d{4}-\d{2}-\d{2}"
                         onChange={handleChange}
-                        value={formData.date} />
+                        value={formData.date}
+                        required />
             </div>
             <div className="form-group">
                 <label htmlFor="reservation-time">Reservation Time</label>
@@ -92,9 +96,11 @@ function CreateReservation (){
                         type="time" 
                         className="form-control" 
                         id="reservation_time" 
-                        placeholder="Enter Time"
+                        placeholder="HH:MM" 
+                        pattern="[0-9]{2}:[0-9]{2}"
                         onChange={handleChange}
-                        value={formData.time} />
+                        value={formData.time} 
+                        required/>
             </div>
             <div className="form-group">
                 <label htmlFor="people">Party Size</label>
@@ -105,7 +111,8 @@ function CreateReservation (){
                         placeholder="Enter Party Size"
                         onChange={handleChange}
                         value={formData.size} 
-                        min="1" />
+                        min="1" 
+                        required/>
             </div>
             <div>
                 <button type="submit" className="btn btn-primary mr-2">Submit</button>
