@@ -3,6 +3,7 @@ import { useHistory } from "react-router"
 import { postReservations } from "../utils/api"
 
 
+
 //goback not working properly
 
 
@@ -51,7 +52,8 @@ function CreateReservation (){
                         id="first_name" 
                         placeholder="Enter First Name"
                         onChange={handleChange}
-                        value={formData.firstName} />
+                        value={formData.firstName} 
+                        required />
             </div>
             <div className="form-group">
                 <label htmlFor="last-name">Last Name</label>
@@ -66,17 +68,18 @@ function CreateReservation (){
             <div className="form-group">
                 <label htmlFor="mobile-number">Mobile Number</label>
                 <input  name="mobile_number"
-                        type="text" 
+                        type="tel" 
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         className="form-control" 
                         id="mobile_number" 
-                        placeholder="Enter Mobile Phone Number" 
+                        placeholder="xxx-xxx-xxxx" 
                         onChange={handleChange}
                         value={formData.mobileNumber}/>
             </div>
             <div className="form-group">
                 <label htmlFor="reservation-date">Reservation Date</label>
                 <input  name="reservation_date" 
-                        type="text" 
+                        type="date" 
                         className="form-control" 
                         id="reservation_date" 
                         placeholder="Enter Date"
@@ -86,7 +89,7 @@ function CreateReservation (){
             <div className="form-group">
                 <label htmlFor="reservation-time">Reservation Time</label>
                 <input  name="reservation_time" 
-                        type="text" 
+                        type="time" 
                         className="form-control" 
                         id="reservation_time" 
                         placeholder="Enter Time"
@@ -96,12 +99,13 @@ function CreateReservation (){
             <div className="form-group">
                 <label htmlFor="people">Party Size</label>
                 <input  name="people" 
-                        type="text" 
+                        type="number" 
                         className="form-control" 
                         id="people" 
                         placeholder="Enter Party Size"
                         onChange={handleChange}
-                        value={formData.size} />
+                        value={formData.size} 
+                        min="1" />
             </div>
             <div>
                 <button type="submit" className="btn btn-primary mr-2">Submit</button>
