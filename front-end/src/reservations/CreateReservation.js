@@ -1,42 +1,54 @@
 import React, {useState} from "react"
 import { useHistory } from "react-router"
+import { postReservations } from "../utils/api"
 
 
 //goback not working properly
 
 
+
 function CreateReservation (){
     const history = useHistory()
     const initialState = {
-        firstName: "",
-        lastName: "",
-        mobileNumber: "",
-        date: "",
-        time: "",
-        size: ""
+        first_name: "",
+        last_name: "",
+        mobile_number: "",
+        reservation_date: "",
+        reservation_time: "",
+        people: ""
     }
     const [formData, setFormData ] = useState({...initialState})
+
+
 
     function handleChange({target}){
         setFormData({...formData,
             [target.id]: target.value})
     }
 
-    function submitHandler(){
+    function submitHandler(event){
+        event.preventDefault()
+        const abortController = new AbortController()
+        async function postData(){
+            await postReservations(formData, abortController.signal)
+            
+        }
+        postData()
         history.push("/dashboard")
+        
     }
-    console.log(history)
+    console.log(formData)
 
     return (
         <>
         <h1>Create Reservation</h1>
-        <form>
+        <form onSubmit={submitHandler}>
             <div className="form-group">
                 <label htmlFor="first-name">First Name</label>
                 <input  name="first_name"
                         type="text" 
                         className="form-control"
-                        id="firstName" 
+                        id="first_name" 
                         placeholder="Enter First Name"
                         onChange={handleChange}
                         value={formData.firstName} />
@@ -46,7 +58,7 @@ function CreateReservation (){
                 <input  name="last_name"
                         type="text" 
                         className="form-control" 
-                        id="lastName" 
+                        id="last_name" 
                         placeholder="Enter Last Name"
                         onChange={handleChange}
                         value={formData.lastName} />
@@ -56,7 +68,7 @@ function CreateReservation (){
                 <input  name="mobile_number"
                         type="text" 
                         className="form-control" 
-                        id="mobileNumber" 
+                        id="mobile_number" 
                         placeholder="Enter Mobile Phone Number" 
                         onChange={handleChange}
                         value={formData.mobileNumber}/>
@@ -66,7 +78,7 @@ function CreateReservation (){
                 <input  name="reservation_date" 
                         type="text" 
                         className="form-control" 
-                        id="date" 
+                        id="reservation_date" 
                         placeholder="Enter Date"
                         onChange={handleChange}
                         value={formData.date} />
@@ -76,7 +88,7 @@ function CreateReservation (){
                 <input  name="reservation_time" 
                         type="text" 
                         className="form-control" 
-                        id="time" 
+                        id="reservation_time" 
                         placeholder="Enter Time"
                         onChange={handleChange}
                         value={formData.time} />
@@ -86,14 +98,14 @@ function CreateReservation (){
                 <input  name="people" 
                         type="text" 
                         className="form-control" 
-                        id="size" 
+                        id="people" 
                         placeholder="Enter Party Size"
                         onChange={handleChange}
                         value={formData.size} />
             </div>
             <div>
-                <button onClick={submitHandler}>Submit</button>
-                <button onClick={() => history.goBack()}>Cancel</button>
+                <button type="submit" className="btn btn-primary mr-2">Submit</button>
+                <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
             </div>
         </form>
         </>
