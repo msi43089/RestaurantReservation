@@ -65,6 +65,21 @@ function checkIfTuesday(req, res, next){
   }
 }
 
+function checkIfOpen(req, res, next){
+  const { reservation_time } = req.body.data
+  const openTime = new Date().setHours(10, 30, 0)
+  const closeTime = new Date().setHours(21, 30, 0)
+  if(reservation_time > openTime && reservation_time < closeTime){
+    next()
+  } else {
+    next({
+      status: 400,
+      message: "You can only reserve after 10:30AM and before 9:30PM"
+    })
+  }
+
+}
+
 function checkDate(req, res, next){
   const { reservation_date } = req.body.data
   const validDate = Date.parse(reservation_date)
@@ -125,6 +140,7 @@ module.exports = {
            isNumber, 
            dateIsInFuture,
            checkIfTuesday,
+           checkIfOpen,
            asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(checkId), read]
 };

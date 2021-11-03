@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import { useHistory } from "react-router"
 import { postReservations } from "../utils/api"
+import ReservationForm from "./ReservationForm"
+import { today } from "../utils/date-time"
 
 
 function CreateReservation (){
@@ -14,6 +16,7 @@ function CreateReservation (){
         people: ""
     }
     const [formData, setFormData ] = useState({...initialState})
+    const [errors, setErrors] = useState([])
 
 
     function handleChange({target}){
@@ -21,97 +24,47 @@ function CreateReservation (){
             [target.id]: target.value})
     }
 
+    function validateDate(date){
+        const trueDate = new Date(`${date.reservation_date}T${date.reservation_time}`)
+        const currentDateInMs = Date.now()
+        const inputDateInMs = trueDate.getTime()
+        let errors = 0
+        if(inputDateInMs < currentDateInMs){
+            setErrors(["Invalid date: Must be a future date!"])
+            errors = errors + 1
+        } else if(trueDate.getDay() === 2){
+            setErrors(["Sorry. We are not open on Tuesdays!"])
+            errors = errors + 1
+        } else {
+            setErrors([])
+            errors = 0
+        }
+        return errors
+    }
+
     function submitHandler(event){
-        event.preventDefault()
+        event.preventDefault() 
+        const validate = validateDate(formData)
         const abortController = new AbortController()
         async function postData(){
             await postReservations(formData, abortController.signal)
-            
         }
-        postData()
+        console.log(validate)
+        if(validate === 0){
+            postData()
         history.push(`/dashboard?date=${formData.reservation_date}`)
-        
+        }
     }
-    console.log(formData)
+   
+
 
     return (
         <>
         <h1>Create Reservation</h1>
-        <form onSubmit={submitHandler}>
-            <div className="form-group">
-                <label htmlFor="first-name">First Name</label>
-                <input  name="first_name"
-                        type="text" 
-                        className="form-control"
-                        id="first_name" 
-                        placeholder="Enter First Name"
-                        onChange={handleChange}
-                        value={formData.firstName} 
-                        required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="last-name">Last Name</label>
-                <input  name="last_name"
-                        type="text" 
-                        className="form-control" 
-                        id="last_name" 
-                        placeholder="Enter Last Name"
-                        onChange={handleChange}
-                        value={formData.lastName}
-                        required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="mobile-number">Mobile Number</label>
-                <input  name="mobile_number"
-                        type="tel" 
-                        className="form-control" 
-                        id="mobile_number" 
-                        placeholder="xxx-xxx-xxxx" 
-                        onChange={handleChange}
-                        value={formData.mobileNumber}
-                        required/>
-            </div>
-            <div className="form-group">
-                <label htmlFor="reservation-date">Reservation Date</label>
-                <input  name="reservation_date" 
-                        type="date" 
-                        className="form-control" 
-                        id="reservation_date" 
-                        placeholder="YYYY-MM-DD"
-                        pattern="\d{4}-\d{2}-\d{2}"
-                        onChange={handleChange}
-                        value={formData.date}
-                        required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="reservation-time">Reservation Time</label>
-                <input  name="reservation_time" 
-                        type="time" 
-                        className="form-control" 
-                        id="reservation_time" 
-                        placeholder="HH:MM" 
-                        pattern="[0-9]{2}:[0-9]{2}"
-                        onChange={handleChange}
-                        value={formData.time} 
-                        required/>
-            </div>
-            <div className="form-group">
-                <label htmlFor="people">Party Size</label>
-                <input  name="people" 
-                        type="number" 
-                        className="form-control" 
-                        id="people" 
-                        placeholder="Enter Party Size"
-                        onChange={handleChange}
-                        value={formData.size} 
-                        min="1" 
-                        required/>
-            </div>
-            <div>
-                <button type="submit" className="btn btn-primary mr-2">Submit</button>
-                <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
-            </div>
-        </form>
+        {errors.length !== 0 ? <h3 className="alert alert-danger">{errors}</h3> : null}
+
+        <ReservationForm submitHandler={submitHandler} handleChange={handleChange} formData={formData} />
+        
         </>
      
     )
