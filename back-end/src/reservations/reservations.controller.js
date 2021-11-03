@@ -40,6 +40,31 @@ async function checkId(req, res, next){
   }
 }
 
+function dateIsInFuture(req, res, next){
+  const { reservation_date, reservation_time } = req.body.data
+  const trueDate = new Date(`${reservation_date}T${reservation_time}`)
+  if(trueDate.getTime() < Date.now()){
+    next({
+      status: 400,
+      message: "Reservation must be in the future"
+    })
+  } else {
+    res.locals.trueDate = trueDate
+    next()
+  }
+}
+
+function checkIfTuesday(req, res, next){
+  if(res.locals.trueDate.getDay() === 2){
+    next({
+      status: 400,
+      message: "We are closed on Tuesdays!"
+    })
+  } else{
+    next()
+  }
+}
+
 function checkDate(req, res, next){
   const { reservation_date } = req.body.data
   const validDate = Date.parse(reservation_date)
@@ -93,6 +118,13 @@ async function create(req, res, next){
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [hasOnlyValidProperties, hasRequiredProperties, checkDate, checkTime, isNumber, asyncErrorBoundary(create)],
+  create: [hasOnlyValidProperties,
+           hasRequiredProperties, 
+           checkDate, 
+           checkTime, 
+           isNumber, 
+           dateIsInFuture,
+           checkIfTuesday,
+           asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(checkId), read]
 };
