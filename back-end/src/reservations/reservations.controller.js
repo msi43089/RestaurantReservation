@@ -140,7 +140,7 @@ module.exports = {
            isNumber, 
            dateIsInFuture,
            checkIfTuesday,
-           checkIfOpen,
+           //checkIfOpen,
            asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(checkId), read]
 };
