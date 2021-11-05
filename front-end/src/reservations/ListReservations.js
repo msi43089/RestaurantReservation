@@ -10,6 +10,9 @@ function ListReservations({reservations}){
           <th>{res.reservation_date}</th>
           <th>{res.reservation_time}</th>
           <th>{res.people}</th>
+          <th>
+            <button className="btn btn-primary">Seat</button>
+          </th>
         </tr> ))
 
 
@@ -24,6 +27,7 @@ function ListReservations({reservations}){
             <th scope="col">Reservation Date</th>
             <th scope="col">Reservation Time</th>
             <th scope="col">Party Size</th>
+            <th scope="col">Seat</th>
           </tr>
         </thead>
         <tbody>
