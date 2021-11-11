@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import useQuery from "../utils/useQuery"
+import useQuery from "../utils/useQuery";
 import ListReservations from "../reservations/ListReservations";
 import { next, previous } from "../utils/date-time";
-import { useHistory} from "react-router-dom"
+import { useHistory} from "react-router-dom";
+import ListTables from "../tables/ListTables";
 
 /**
  * Defines the dashboard page.
@@ -60,6 +61,7 @@ function Dashboard({ date }) {
         <button type="button" className="btn btn-outline-secondary" onClick={handleNext}>Next</button>
       </div>
       <ListReservations reservations={reservations} />
+      <ListTables />
 
     </main>
   );

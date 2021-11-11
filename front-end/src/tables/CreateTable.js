@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom"
+import { postTables } from "../utils/api"
 
 function CreateTable(){
 
@@ -15,8 +16,14 @@ function CreateTable(){
             [target.id]: target.value})
     }
 
-    function submitHandler(){
-
+    function submitHandler(event){
+        event.preventDefault()
+        const abortController = new AbortController()
+        async function postData(){
+            await postTables(formData, abortController.signal)
+        }
+            postData()
+            history.push(`/dashboard`)
     }
 
     return(

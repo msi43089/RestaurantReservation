@@ -1,21 +1,12 @@
 import React from "react";
+import Reservation from "./Reservation";
 
 function ListReservations({reservations}){
 
-    const reservationTable = reservations.map((res, index) => (
-        <tr key={index}>
-          <th scope="row">{res.first_name}</th>
-          <th>{res.last_name}</th>
-          <th>{res.mobile_number}</th>
-          <th>{res.reservation_date}</th>
-          <th>{res.reservation_time}</th>
-          <th>{res.people}</th>
-          <th>
-            <button className="btn btn-primary">Seat</button>
-          </th>
-        </tr> ))
-
-
+    const reservation = reservations.map((res, index) => {
+      return <Reservation reservation={res} key={index} />
+    })
+    
     return(
         <>
       <table className="table">
@@ -31,7 +22,7 @@ function ListReservations({reservations}){
           </tr>
         </thead>
         <tbody>
-          {reservationTable}
+          {reservation}
         </tbody>
       </table>
       </>

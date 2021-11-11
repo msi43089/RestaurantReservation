@@ -83,3 +83,15 @@ export async function postReservations(reservation, signal){
   }
   return await fetchJson(url, options)
 }
+
+//post a new table
+export async function postTables(table, signal){
+  const url = `${API_BASE_URL}/tables`
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal
+  }
+  return await fetchJson(url, options)
+}

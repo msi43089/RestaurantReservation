@@ -69,7 +69,6 @@ function CreateReservation (){
         <h1>Create Reservation</h1>
         <ReservationError errors={errors} />
         <ReservationForm submitHandler={submitHandler} handleChange={handleChange} formData={formData} />
-        
         </>
      
     )
