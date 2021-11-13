@@ -16,6 +16,7 @@ function CreateTable(){
             [target.id]: target.value})
     }
 
+    //API - Post form data
     function submitHandler(event){
         event.preventDefault()
         const abortController = new AbortController()
@@ -39,7 +40,7 @@ function CreateTable(){
                             placeholder="Enter Table Name"
                             onChange={handleChange}
                             value={formData.table_name}
-                            minlength="2" 
+                            minLength="2" 
                             required />
                 </div>
                 <div className="form-group">

@@ -6,6 +6,7 @@ import ReservationError from "./ReservationError"
 
 
 function CreateReservation (){
+
     const history = useHistory()
     const initialState = {
         first_name: "",
@@ -51,6 +52,7 @@ function CreateReservation (){
          return !errorFound
     }
 
+    //API - Post form data as long as validations pass
     function submitHandler(event){
         event.preventDefault() 
         const validate = validateForm(formData)

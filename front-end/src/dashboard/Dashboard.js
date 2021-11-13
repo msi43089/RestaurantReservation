@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
 import ListReservations from "../reservations/ListReservations";
@@ -15,7 +15,10 @@ import ListTables from "../tables/ListTables";
  */
 function Dashboard({ date }) {
 
+  const history = useHistory()
+
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
   //uses the date param from the URL if there is one
@@ -24,8 +27,7 @@ function Dashboard({ date }) {
     date = dateQuery;
   }
 
-  const history = useHistory()
-
+  //API call to load reservations based on reservation date
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
@@ -37,11 +39,22 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  //API call to load tables
+  useEffect(() => {
+    const abortController = new AbortController();
+    listTables()
+      .then(setTables)
+      .catch(setReservationsError)
+      return () => abortController.abort()
+  }, [])
+
+  //changes url to previous day, calling listReservations again
   function handlePrevious(){
       const previousDate = previous(date)
       history.push(`/dashboard?date=${previousDate}`)
   }
 
+  //changes url to next day, calling listReservations again
   function handleNext(){
     const nextDate = next(date)
     history.push(`/dashboard?date=${nextDate}`)
@@ -61,7 +74,7 @@ function Dashboard({ date }) {
         <button type="button" className="btn btn-outline-secondary" onClick={handleNext}>Next</button>
       </div>
       <ListReservations reservations={reservations} />
-      <ListTables />
+      <ListTables tables={tables} />
 
     </main>
   );

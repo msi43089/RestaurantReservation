@@ -1,6 +1,12 @@
 import React from "react";
+import Table from "./Table";
 
-function ListTables(){
+function ListTables({tables}){
+
+ 
+  const tableList = tables.map((table, index) => {
+    return <Table table={table} key={index} />
+  })
 
     return(
         <>
@@ -13,7 +19,7 @@ function ListTables(){
           </tr>
         </thead>
         <tbody>
-            This is where the tables will go
+            {tableList}
         </tbody>
       </table>
       </>
