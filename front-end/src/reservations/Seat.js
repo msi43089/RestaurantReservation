@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { listTables } from "../utils/api";
+import { listTables, updateTables } from "../utils/api";
+import { useParams, useHistory } from "react-router-dom";
 
 function Seat(){
 
     const [ tables, setTables ] = useState([]);
-    const [ tableId, setTableId ] = useState({});
-
+    const [ tableId, setTableId ] = useState();
+    const { reservation_id } = useParams();
+    const history = useHistory()
 
     //API call tables to select 
     useEffect(() => {
@@ -20,17 +22,25 @@ function Seat(){
 
     //set TableID state to the the Table_id of selected table
     function handleChange({target}){
-        setTableId({
-            [target.id]: target.value});
+        setTableId(target.value);
     }
 
+   
     //API call on submit to update selected table to occupied 
+    function handleSumbit(event){
+        event.preventDefault()
+        async function setReservation(){
+            return await updateTables(tableId, reservation_id)
+        }
+        setReservation()
+    }
+    
     
 
     return (
         <>
         <h1>Please select a Table</h1>
-        <form>
+        <form onSubmit={handleSumbit}>
             <div className="form-group">
                 <label htmlFor="table_id">
                     <select
@@ -38,7 +48,6 @@ function Seat(){
                         id="table_id"
                         name="table_id"
                         onChange={handleChange}
-                    
                         >
                             <option value=""> Table</option>
                             {tables.map(table => (
@@ -50,7 +59,8 @@ function Seat(){
                 </label>
             </div>
             <div>
-                <button className="btn btn-primary">Submit</button>
+                <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="btn btn-secondary" type="button" onClick={() => history.goBack()}>Cancel</button>"
             </div>
         </form>
         </>

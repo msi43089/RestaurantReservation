@@ -12,6 +12,14 @@ function list (){
         .select("*")
 }
 
+function read(table_id){
+    return knex("tables")
+}
+
+function update(reservation_id, table_id)
+    return knex("tables")
+        .where({table_id: table_id})
+
 module.exports = {
     create,
     list
