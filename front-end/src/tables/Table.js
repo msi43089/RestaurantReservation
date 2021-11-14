@@ -7,7 +7,7 @@ function Table({table}){
     <tr>
         <th scope="row">{table.table_name}</th>
         <th>{table.capacity}</th>
-        <th data-table-id-status={table.table_id} >{table.reservation_id ? "Occupied" : "Free"}</th>
+        <th data-table-id-status={table.table_id} >{table.status}</th>
     </tr>
     )
 }

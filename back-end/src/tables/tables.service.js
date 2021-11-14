@@ -14,13 +14,23 @@ function list (){
 
 function read(table_id){
     return knex("tables")
+        .select("*")
+        .where({table_id: table_id})
+        .then(tablesArray => tablesArray[0])
 }
 
-function update(reservation_id, table_id)
+function update(updatedTable){
     return knex("tables")
-        .where({table_id: table_id})
+        .where({table_id: updatedTable.table_id})
+        .update(updatedTable, "*")
+        .returning("*")
+        .then(updated => updated[0])
+}
+
 
 module.exports = {
     create,
-    list
+    list,
+    read,
+    update
 }
