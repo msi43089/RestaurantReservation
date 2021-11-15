@@ -113,3 +113,9 @@ export async function updateTables(table_id, reservation_id, signal){
   }
   return await fetchJson(url, options, [])
 }
+
+//read reservation by ID
+export async function readReservation(reservation_id, signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`)
+  return await fetchJson(url)
+}

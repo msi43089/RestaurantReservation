@@ -1,5 +1,11 @@
 const tablesService = require("./tables.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const reservationsService = require("../reservations/reservations.service")
+const hasProperties = require("../errors/hasProperties")
+
+
+const hasTableName = hasProperties(["table_name"])
+const hasReservationId = hasProperties(["reservation_id"])
 
 async function checkTableExists(req, res, next){
     const { table_id } = req.params
@@ -10,6 +16,84 @@ async function checkTableExists(req, res, next){
     } else {
         next({ status: 400,
         message: "table does not exist"})
+    }
+}
+
+function checkForData(req, res, next){
+    const { data } = req.body
+    if(data){
+        next()
+    } else {
+        next({
+            status: 400,
+            message: "No data found"
+        })
+    }
+}
+
+function validateTableName(req, res, next){
+    const { table_name } = req.body.data
+    if(table_name.length < 2){
+        next({ 
+            status: 400,
+            message: "table_name must be 2 characters"
+            })
+    } 
+    if(!table_name){
+        next({
+            status: 400,
+            message: "table_name is missing"
+        })
+    } else {
+        next()
+    }
+}
+
+function validateTableCapacity(req, res, next){
+    const { capacity } = req.body.data
+    if(typeof(capacity) !== "number"){
+        next({
+            status: 400,
+            message: "capacity must be a number"
+        })
+    }
+    if(capacity < 1){
+        next({
+        status: 400,
+        message: "capacity must be greater than 0"
+        })
+    } else {
+        next()
+    }
+}
+
+async function validateCapacity(req, res, next){
+    const { reservation_id } = req.body.data
+    const reservation = await reservationsService.read(reservation_id)
+    if(!reservation){
+        next({
+            status: 404,
+            message: `reservation_id: ${reservation_id} not found`
+        })
+    }
+    if(reservation.people <=  res.locals.table.capacity){
+        next()
+    } else {
+        next({
+            status: 400,
+            message: "Table capacity is not sufficient"
+        })
+    }
+}
+
+function validateTableAvailable(req, res, next){
+    if(res.locals.table.status === "Free"){
+        next()
+    } else {
+        next({
+            status: 400,
+            message: "Table is occupied"
+        })
     }
 }
 
@@ -32,7 +116,20 @@ async function update(req, res, next){
 }
 
 module.exports = {
-    update: [checkTableExists, update],
-    list: [list],
-    create: [create]
+    update: [
+        hasReservationId,
+        asyncErrorBoundary(checkTableExists),
+        asyncErrorBoundary(validateCapacity),
+        validateTableAvailable,
+        checkForData,
+        asyncErrorBoundary(update)
+    ],
+    list: [asyncErrorBoundary(list)],
+    create: [
+        hasTableName,
+        validateTableName,
+        validateTableCapacity,
+        checkForData,
+        asyncErrorBoundary(create)
+    ]
 }

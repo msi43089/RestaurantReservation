@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { listTables, updateTables } from "../utils/api";
+import { listTables, updateTables, readReservation } from "../utils/api";
 import { useParams, useHistory } from "react-router-dom";
+import ReservationError from "./ReservationError"
 
 function Seat(){
 
     const [ tables, setTables ] = useState([]);
     const [ tableId, setTableId ] = useState();
+    const [ reservation, setReservation ] = useState({})
+    const [ errors, setErrors ] = useState([])
     const { reservation_id } = useParams();
     const history = useHistory()
 
@@ -20,25 +23,52 @@ function Seat(){
         return () => abortController.abort;
     }, [])
 
+    //API - read reservation by reservation id Paramater
+    useEffect(() => {
+        const abortController = new AbortController()
+        async function getReservation(){
+            const data = await readReservation(reservation_id)
+            setReservation(data)
+        }
+        getReservation()
+        return () => abortController.abort()
+    }, [reservation_id])
+
+    //validate table capacity is suffecient
+    function validateCapacity(){
+        const selectedTable = tables.find(table => Number(tableId) === table.table_id)
+        let errorsArray = []
+        let errorFound = false
+        if(reservation.people > selectedTable.capacity){
+            errorsArray = [...errorsArray, "Table capacity is not sufficeint"]
+            errorFound = true
+        } 
+        setErrors(errorsArray)
+        return !errorFound
+    }
+
     //set TableID state to the the Table_id of selected table
     function handleChange({target}){
         setTableId(target.value);
     }
 
-   
     //API call on submit to update selected table to occupied 
     function handleSumbit(event){
-        event.preventDefault()
-        async function setReservation(){
+        event.preventDefault();
+        const validate = validateCapacity()
+        async function seatReservation(){
             return await updateTables(tableId, reservation_id)
         }
-        setReservation()
+        if(validate){
+            seatReservation()
+            history.push("/dashboard")
+        }
     }
-    
-    
+
 
     return (
         <>
+        <ReservationError errors={errors} />
         <h1>Please select a Table</h1>
         <form onSubmit={handleSumbit}>
             <div className="form-group">

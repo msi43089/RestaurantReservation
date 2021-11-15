@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState } from "react";
 import { useHistory } from "react-router-dom"
 import { postTables } from "../utils/api"
 
@@ -11,15 +11,23 @@ function CreateTable(){
     }
     const [formData, setFormData] = useState({...initialState})
 
-    function handleChange({target}){
+    function handleNameChange({target}){
         setFormData({...formData,
             [target.id]: target.value})
+    }
+
+    function handleCapacityChange({target}){
+
+        setFormData({...formData,
+            [target.id]: Number(target.value)})
     }
 
     //API - Post form data
     function submitHandler(event){
         event.preventDefault()
         const abortController = new AbortController()
+        //setFormData({...formData, 
+          //          capacity: Number(formData.capacity)})
         async function postData(){
             await postTables(formData, abortController.signal)
         }
@@ -27,6 +35,7 @@ function CreateTable(){
             history.push(`/dashboard`)
     }
 
+  
     return(
         <>
         <h1>Create a New Table</h1>
@@ -38,7 +47,7 @@ function CreateTable(){
                             className="form-control"
                             id="table_name" 
                             placeholder="Enter Table Name"
-                            onChange={handleChange}
+                            onChange={handleNameChange}
                             value={formData.table_name}
                             minLength="2" 
                             required />
@@ -46,17 +55,17 @@ function CreateTable(){
                 <div className="form-group">
                     <label htmlFor="capacity">Table Capacity</label>
                     <input  name="capacity"
-                            type="number" 
+                            type="number"
                             className="form-control" 
                             id="capacity" 
                             placeholder="Enter Table Capacity"
-                            onChange={handleChange}
+                            onChange={handleCapacityChange}
                             value={formData.capacity}
                             min="1"
                             required />
                 </div>
                 <div>
-                    <button type="sumbit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                     <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
                 </div>
         </form>

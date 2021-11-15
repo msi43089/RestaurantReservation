@@ -10,6 +10,7 @@ function create (table){
 function list (){
     return knex("tables")
         .select("*")
+        .orderBy("table_name")
 }
 
 function read(table_id){
