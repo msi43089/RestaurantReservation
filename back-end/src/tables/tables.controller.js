@@ -14,8 +14,19 @@ async function checkTableExists(req, res, next){
         res.locals.table = table
         next()
     } else {
-        next({ status: 400,
-        message: "table does not exist"})
+        next({ status: 404,
+        message: `table: ${table_id} does not exist`})
+    }
+}
+
+function checkOccupied(req, res, next){
+    if(res.locals.table.status !== "occupied"){
+        next({
+            status: 400,
+            message: "Table is not occupied"
+        })
+    } else {
+        next()
     }
 }
 
@@ -110,9 +121,16 @@ async function list(req, res, next){
 async function update(req, res, next){
     const { reservation_id } = req.body.data
     const { table } = res.locals
-    const updatedTable = {...table, reservation_id: reservation_id, status: "Occupied"}
+    const updatedTable = {...table, reservation_id: reservation_id, status: "occupied"}
     const response = await tablesService.update(updatedTable)
     res.status(200).json({ data: updatedTable })
+}
+
+async function destroy(req, res, next){
+    const { table } = res.locals
+    const updatedTable = {...table, status: "Free"}
+    const response = await tablesService.destroy(updatedTable)
+    res.json({ data: updatedTable})
 }
 
 module.exports = {
@@ -131,5 +149,10 @@ module.exports = {
         validateTableCapacity,
         checkForData,
         asyncErrorBoundary(create)
+    ],
+    delete: [
+        asyncErrorBoundary(checkTableExists),
+        checkOccupied,
+        asyncErrorBoundary(destroy)
     ]
 }

@@ -17,6 +17,7 @@ function ListTables({tables}){
             <th scope="col">Table Name</th>
             <th scope="col">Table Capacity</th>
             <th scope="col" >Occupied</th>
+            <th scope="col">Finish</th>
           </tr>
         </thead>
         <tbody>

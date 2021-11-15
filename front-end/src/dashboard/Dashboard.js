@@ -46,7 +46,7 @@ function Dashboard({ date }) {
       .then(setTables)
       .catch(setReservationsError)
       return () => abortController.abort()
-  }, [])
+  }, [tables])
 
   //changes url to previous day, calling listReservations again
   function handlePrevious(){
