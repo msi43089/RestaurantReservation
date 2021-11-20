@@ -20,7 +20,7 @@ async function checkTableExists(req, res, next){
 }
 
 function checkOccupied(req, res, next){
-    if(res.locals.table.status !== "occupied"){
+    if(!res.locals.table.reservation_id){
         next({
             status: 400,
             message: "Table is not occupied"
@@ -98,7 +98,7 @@ async function validateCapacity(req, res, next){
 }
 
 function validateTableAvailable(req, res, next){
-    if(res.locals.table.status === "Free"){
+    if(!res.locals.table.reservation_id){
         next()
     } else {
         next({
@@ -121,14 +121,15 @@ async function list(req, res, next){
 async function update(req, res, next){
     const { reservation_id } = req.body.data
     const { table } = res.locals
-    const updatedTable = {...table, reservation_id: reservation_id, status: "occupied"}
+    const updatedTable = {...table, reservation_id: reservation_id}
     const response = await tablesService.update(updatedTable)
     res.status(200).json({ data: updatedTable })
 }
 
 async function destroy(req, res, next){
     const { table } = res.locals
-    const updatedTable = {...table, status: "Free"}
+    const updatedTable = {...table, reservation_id: null}
+    console.log(table)
     const response = await tablesService.destroy(updatedTable)
     res.json({ data: updatedTable})
 }

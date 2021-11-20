@@ -87,9 +87,6 @@ export async function postReservations(reservation, signal){
 //post a new table
 export async function postTables(table, signal){
   const url = `${API_BASE_URL}/tables`
-  if(table.reservation_id){
-    table = {...table, status: "occupied"}
-  }
   const options = {
     method: "POST",
     headers,
@@ -128,6 +125,17 @@ export async function deleteTable(table_id, signal){
   const options = {
     method: "DELETE",
     headers,
+    signal
+  }
+  return await fetchJson(url, options, [])
+}
+
+export async function updateStatus(reservation_id, status, signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: {status: status } }),
     signal
   }
   return await fetchJson(url, options, [])

@@ -130,6 +130,13 @@ async function create(req, res, next){
     res.status(201).json({ data: data })
 }
 
+async function update(req, res, next){
+  console.log(res.locals.reservation)
+  const updatedTable = { ...res.locals.reservation, status: req.body.data.status}
+  const response = await reservationsService.update(updatedTable)
+  res.status(200).json({ data: updatedTable })
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [hasOnlyValidProperties,
@@ -141,5 +148,6 @@ module.exports = {
            checkIfTuesday,
            checkIfOpen,
            asyncErrorBoundary(create)],
-  read: [asyncErrorBoundary(checkId), read]
+  read: [asyncErrorBoundary(checkId), read],
+  update: [asyncErrorBoundary(checkId), asyncErrorBoundary(update)]
 };

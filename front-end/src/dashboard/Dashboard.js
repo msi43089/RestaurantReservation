@@ -70,8 +70,8 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <div className="d-flex justify-content-between mb-2">
-        <button type="button" className="btn btn-outline-secondary" onClick={(handlePrevious)}>Previous</button>
-        <button type="button" className="btn btn-outline-secondary" onClick={handleNext}>Next</button>
+        <button type="button" className="btn btn-outline-secondary" onClick={()=>handlePrevious()}>Previous</button>
+        <button type="button" className="btn btn-outline-secondary" onClick={()=>handleNext()}>Next</button>
       </div>
       <ListReservations reservations={reservations} />
       <ListTables tables={tables} />

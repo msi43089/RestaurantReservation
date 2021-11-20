@@ -20,8 +20,17 @@ function read(reservationId) {
         .then((returnedRecords) => returnedRecords[0]);
 }
 
+function update(reservationTable){
+    return knex("reservations")
+        .where({reservation_id: reservationTable.reservation_id})
+        .update(reservationTable, "*")
+        .returning("*")
+        .then(updatedTable => updatedTable[0])
+}
+
 module.exports = {
     list,
     create,
-    read
+    read,
+    update
 }

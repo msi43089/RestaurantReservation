@@ -18,6 +18,7 @@ function ListReservations({reservations}){
             <th scope="col">Reservation Date</th>
             <th scope="col">Reservation Time</th>
             <th scope="col">Party Size</th>
+            <th scope="col">Status</th>
             <th scope="col">Seat</th>
           </tr>
         </thead>
