@@ -1,7 +1,10 @@
 import React from "react";
 import { deleteTable } from "../utils/api";
+import { useHistory } from "react-router-dom"
 
 function FinishTable({table}){
+
+    const history = useHistory()
 
     function handleFinish(event){
         event.preventDefault()
@@ -10,6 +13,7 @@ function FinishTable({table}){
                 await deleteTable(table.table_id)
             }
             clearTable()
+            history.go("/dashboard")
         } 
     }
 

@@ -108,8 +108,14 @@ function validateTableAvailable(req, res, next){
     }
 }
 
+
 async function create(req, res, next){
-    const data = await tablesService.create(req.body.data)
+    const { reservation_id } = req.body.data
+    let createdTable = req.body.data
+    if(reservation_id) {
+        createdTable = {...createdTable, status: "occupied"}
+    }
+    const data = await tablesService.create(createdTable)
     res.status(201).json({ data: data })
 }
 
@@ -128,7 +134,7 @@ async function update(req, res, next){
 
 async function destroy(req, res, next){
     const { table } = res.locals
-    const updatedTable = {...table, status: "Free"}
+    const updatedTable = {...table, status: "Free", reservation_id: null}
     const response = await tablesService.destroy(updatedTable)
     res.json({ data: updatedTable})
 }

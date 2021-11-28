@@ -44,7 +44,9 @@ function Dashboard({ date }) {
     const abortController = new AbortController();
     listTables()
       .then(setTables)
+      
       .catch(setReservationsError)
+      
       return () => abortController.abort()
   }, [])
 
@@ -59,6 +61,8 @@ function Dashboard({ date }) {
     const nextDate = next(date)
     history.push(`/dashboard?date=${nextDate}`)
   }
+
+  
 
  
 
