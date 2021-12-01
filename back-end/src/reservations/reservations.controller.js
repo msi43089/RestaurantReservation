@@ -9,10 +9,11 @@ const validProperties = [
   "mobile_number",
   "reservation_date",
   "reservation_time",
-  "people"
+  "people",
+  "status"
 ]
 
-const hasRequiredProperties = hasProperties(validProperties)
+const hasRequiredProperties = hasProperties(["first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"])
 
 function hasOnlyValidProperties(req, res, next){
   const { data = {} } = req.body
@@ -116,6 +117,38 @@ function isNumber(req, res, next){
   }
 }
 
+function checkDefaultStatus(req, res, next){
+  const { status } =  req.body.data
+  if(status === "booked" || !status){
+    next()
+  } else {
+    next({
+      status: 400,
+      message: `Invalid Status: ${status}`
+    })
+  }
+}
+
+function checkUpdatedStatus(req, res, next){
+  const { status } = req.body.data
+  if(
+    status !== "booked" && 
+    status !== "seated" &&
+    status !== "finished"){
+    next({
+      status: 400,
+      message: `Invalid Status: ${status}`
+    })
+  } 
+  if (res.locals.reservation.status === "finished"){
+    next({
+        status: 400,
+        message: `Invalid Status: finished table can't be updated`     
+    })
+  }
+  return next()
+}
+
 function read(req, res, next){
   res.json({ data: res.locals.reservation})
 }
@@ -130,6 +163,13 @@ async function create(req, res, next){
     res.status(201).json({ data: data })
 }
 
+async function update(req,res,next){
+  const reservation = res.locals.reservation
+  const updatedReservation = {...reservation, status: req.body.data.status }
+  await reservationsService.update(updatedReservation)
+  res.status(200).json({ data: updatedReservation })
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [hasOnlyValidProperties,
@@ -140,6 +180,8 @@ module.exports = {
            dateIsInFuture,
            checkIfTuesday,
            checkIfOpen,
+           checkDefaultStatus,
            asyncErrorBoundary(create)],
-  read: [asyncErrorBoundary(checkId), read]
+  read: [asyncErrorBoundary(checkId), read],
+  update: [asyncErrorBoundary(checkId), checkUpdatedStatus, update]
 };

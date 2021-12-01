@@ -15,6 +15,7 @@ import ListTables from "../tables/ListTables";
  */
 function Dashboard({ date }) {
 
+
   const history = useHistory()
 
   const [reservations, setReservations] = useState([]);
@@ -44,9 +45,7 @@ function Dashboard({ date }) {
     const abortController = new AbortController();
     listTables()
       .then(setTables)
-      
       .catch(setReservationsError)
-      
       return () => abortController.abort()
   }, [])
 
@@ -62,9 +61,6 @@ function Dashboard({ date }) {
     history.push(`/dashboard?date=${nextDate}`)
   }
 
-  
-
- 
 
   return (
     <main>

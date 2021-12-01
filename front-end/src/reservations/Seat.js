@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listTables, updateTables, readReservation } from "../utils/api";
+import { listTables, updateTables, readReservation, updateReservationStatus } from "../utils/api";
 import { useParams, useHistory } from "react-router-dom";
 import ReservationError from "./ReservationError"
 
@@ -11,6 +11,16 @@ function Seat(){
     const [ errors, setErrors ] = useState([])
     const { reservation_id } = useParams();
     const history = useHistory()
+
+    //API call to update seat status on page load
+ /*   useEffect(() => {
+        const abortController = new AbortController()
+        async function seatReservation(){
+            await updateReservationStatus(reservation_id, "seated")
+        }
+        seatReservation()
+        return () => abortController.abort()
+    }, [reservation_id])*/
 
     //API call tables to select 
     useEffect(() => {
@@ -56,14 +66,19 @@ function Seat(){
     function handleSumbit(event){
         event.preventDefault();
         const validate = validateCapacity()
-        async function seatReservation(){
+        async function seatTable(){
             return await updateTables(tableId, reservation_id)
         }
+        async function seatReservation(){
+            await updateReservationStatus(reservation_id, "seated")
+        }
         if(validate){
+            seatTable()
             seatReservation()
             history.push("/dashboard")
         }
     }
+
 
 
     return (
@@ -90,7 +105,7 @@ function Seat(){
             </div>
             <div>
                 <button className="btn btn-primary" type="submit">Submit</button>
-                <button className="btn btn-secondary" type="button" onClick={() => history.goBack()}>Cancel</button>"
+                <button className="btn btn-secondary" type="button" onClick={() => history.goBack()}>Cancel</button>
             </div>
         </form>
         </>

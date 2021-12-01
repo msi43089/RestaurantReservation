@@ -4,7 +4,9 @@ import Reservation from "./Reservation";
 function ListReservations({reservations}){
 
     const reservation = reservations.map((res, index) => {
-      return <Reservation reservation={res} key={index} />
+      return (res.status !== "finished" ?
+         <Reservation reservation={res} key={index} /> : null
+      )
     })
     
     return(
@@ -19,6 +21,7 @@ function ListReservations({reservations}){
             <th scope="col">Reservation Time</th>
             <th scope="col">Party Size</th>
             <th scope="col">Seat</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>

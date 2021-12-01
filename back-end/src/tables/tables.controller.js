@@ -88,6 +88,7 @@ async function validateCapacity(req, res, next){
         })
     }
     if(reservation.people <=  res.locals.table.capacity){
+        res.locals.reservation = reservation
         next()
     } else {
         next({
@@ -98,6 +99,7 @@ async function validateCapacity(req, res, next){
 }
 
 function validateTableAvailable(req, res, next){
+    console.log("Next validation")
     if(res.locals.table.status === "Free"){
         next()
     } else {
@@ -105,6 +107,17 @@ function validateTableAvailable(req, res, next){
             status: 400,
             message: "Table is occupied"
         })
+    }
+}
+
+function checkIfSeated(req,res,next){
+    if(res.locals.reservation.status === "seated"){
+        next({
+            status: 400,
+            message: `Invalid status: reservation already seated`
+        })
+    } else {
+        next()
     }
 }
 
@@ -124,6 +137,13 @@ async function list(req, res, next){
     res.json({ data });
 }
 
+async function seatReservation(req, res, next){
+    const updatedReservation = { ...res.locals.reservation, status: "seated"}
+    await reservationsService.update(updatedReservation)
+    console.log("End of seat reservation")
+    next()
+}
+
 async function update(req, res, next){
     const { reservation_id } = req.body.data
     const { table } = res.locals
@@ -132,11 +152,22 @@ async function update(req, res, next){
     res.status(200).json({ data: updatedTable })
 }
 
+async function finishReservation(req, res, next){
+    const { table } = res.locals
+    if(table.reservation_id){
+        const reservation = await reservationsService.read(table.reservation_id)
+        const updatedReservation = { ...reservation, status: "finished"}
+        await reservationsService.update(updatedReservation)
+    }
+    next()
+}
+
 async function destroy(req, res, next){
     const { table } = res.locals
     const updatedTable = {...table, status: "Free", reservation_id: null}
     const response = await tablesService.destroy(updatedTable)
-    res.json({ data: updatedTable})
+
+    res.status(200).json({ data: updatedTable})
 }
 
 module.exports = {
@@ -144,6 +175,8 @@ module.exports = {
         hasReservationId,
         asyncErrorBoundary(checkTableExists),
         asyncErrorBoundary(validateCapacity),
+        checkIfSeated,
+        asyncErrorBoundary(seatReservation),
         validateTableAvailable,
         checkForData,
         asyncErrorBoundary(update)
@@ -159,6 +192,7 @@ module.exports = {
     delete: [
         asyncErrorBoundary(checkTableExists),
         checkOccupied,
+        asyncErrorBoundary(finishReservation),
         asyncErrorBoundary(destroy)
     ]
 }

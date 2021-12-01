@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteTable } from "../utils/api";
+import { deleteTable, updateReservationStatus } from "../utils/api";
 import { useHistory } from "react-router-dom"
 
 function FinishTable({table}){
@@ -12,10 +12,16 @@ function FinishTable({table}){
             async function clearTable(){
                 await deleteTable(table.table_id)
             }
+            async function finishReservation(){
+                await updateReservationStatus(table.reservation_id, "finished")
+            }
+            finishReservation()
             clearTable()
             history.go("/dashboard")
         } 
     }
+
+    
 
     if(table.status === "occupied"){
         return (
