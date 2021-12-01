@@ -68,7 +68,6 @@ function checkIfTuesday(req, res, next){
 
 function checkIfOpen(req, res, next){
   const { reservation_time } = req.body.data
-  console.log(typeof(reservation_time))
   if(reservation_time < "10:30" || reservation_time > "21:30"){
     next({
       status: 400,

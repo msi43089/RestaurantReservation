@@ -8,17 +8,20 @@ function FinishTable({table}){
 
     function handleFinish(event){
         event.preventDefault()
+       
         if(window.confirm("Is this table ready to seat new guests? This cannot be undone.")){
             async function clearTable(){
                 await deleteTable(table.table_id)
             }
             async function finishReservation(){
                 await updateReservationStatus(table.reservation_id, "finished")
+                
             }
             finishReservation()
             clearTable()
-            history.go("/dashboard")
+            
         } 
+        history.go("/dashboard")
     }
 
     

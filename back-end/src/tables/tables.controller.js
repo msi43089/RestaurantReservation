@@ -8,6 +8,7 @@ const hasTableName = hasProperties(["table_name"])
 const hasReservationId = hasProperties(["reservation_id"])
 
 async function checkTableExists(req, res, next){
+    console.log("test table exists")
     const { table_id } = req.params
     const table = await tablesService.read(Number(table_id))
     if(table){
@@ -20,6 +21,7 @@ async function checkTableExists(req, res, next){
 }
 
 function checkOccupied(req, res, next){
+    console.log("test occupied")
     if(res.locals.table.status !== "occupied"){
         next({
             status: 400,
@@ -99,7 +101,6 @@ async function validateCapacity(req, res, next){
 }
 
 function validateTableAvailable(req, res, next){
-    console.log("Next validation")
     if(res.locals.table.status === "Free"){
         next()
     } else {
@@ -140,7 +141,6 @@ async function list(req, res, next){
 async function seatReservation(req, res, next){
     const updatedReservation = { ...res.locals.reservation, status: "seated"}
     await reservationsService.update(updatedReservation)
-    console.log("End of seat reservation")
     next()
 }
 
@@ -152,7 +152,7 @@ async function update(req, res, next){
     res.status(200).json({ data: updatedTable })
 }
 
-async function finishReservation(req, res, next){
+/*async function finishReservation(req, res, next){
     const { table } = res.locals
     if(table.reservation_id){
         const reservation = await reservationsService.read(table.reservation_id)
@@ -160,13 +160,20 @@ async function finishReservation(req, res, next){
         await reservationsService.update(updatedReservation)
     }
     next()
-}
+}*/
 
 async function destroy(req, res, next){
     const { table } = res.locals
     const updatedTable = {...table, status: "Free", reservation_id: null}
     const response = await tablesService.destroy(updatedTable)
 
+    const reservation = await reservationsService.read(table.reservation_id)
+    const updatedReservation = { ...reservation, status: "finished"}
+    await reservationsService.update(updatedReservation)
+
+
+
+    
     res.status(200).json({ data: updatedTable})
 }
 
@@ -192,7 +199,7 @@ module.exports = {
     delete: [
         asyncErrorBoundary(checkTableExists),
         checkOccupied,
-        asyncErrorBoundary(finishReservation),
+        //asyncErrorBoundary(finishReservation),
         asyncErrorBoundary(destroy)
     ]
 }
