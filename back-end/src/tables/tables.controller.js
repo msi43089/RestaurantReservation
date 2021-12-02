@@ -152,28 +152,13 @@ async function update(req, res, next){
     res.status(200).json({ data: updatedTable })
 }
 
-/*async function finishReservation(req, res, next){
-    const { table } = res.locals
-    if(table.reservation_id){
-        const reservation = await reservationsService.read(table.reservation_id)
-        const updatedReservation = { ...reservation, status: "finished"}
-        await reservationsService.update(updatedReservation)
-    }
-    next()
-}*/
-
 async function destroy(req, res, next){
     const { table } = res.locals
     const updatedTable = {...table, status: "Free", reservation_id: null}
     const response = await tablesService.destroy(updatedTable)
-
     const reservation = await reservationsService.read(table.reservation_id)
     const updatedReservation = { ...reservation, status: "finished"}
     await reservationsService.update(updatedReservation)
-
-
-
-    
     res.status(200).json({ data: updatedTable})
 }
 
@@ -199,7 +184,6 @@ module.exports = {
     delete: [
         asyncErrorBoundary(checkTableExists),
         checkOccupied,
-        //asyncErrorBoundary(finishReservation),
         asyncErrorBoundary(destroy)
     ]
 }

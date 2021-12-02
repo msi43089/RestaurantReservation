@@ -1,7 +1,6 @@
-const reservationsService = require("./reservations.service")
-const hasProperties = require("../errors/hasProperties")
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
-
+const reservationsService = require("./reservations.service");
+const hasProperties = require("../errors/hasProperties");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 const validProperties = [
   "first_name",
@@ -11,28 +10,35 @@ const validProperties = [
   "reservation_time",
   "people",
   "status"
-]
+];
 
-const hasRequiredProperties = hasProperties(["first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"])
+const hasRequiredProperties = hasProperties([
+  "first_name", 
+  "last_name", 
+  "mobile_number", 
+  "reservation_date", 
+  "reservation_time", 
+  "people"
+]);
 
 function hasOnlyValidProperties(req, res, next){
-  const { data = {} } = req.body
-  const invalidFields = Object.keys(data).filter((field) => !validProperties.includes(field))
+  const { data = {} } = req.body;
+  const invalidFields = Object.keys(data).filter((field) => !validProperties.includes(field));
   if(invalidFields.length > 0){
     return next({
       status: 400,
       message: `Invalid field(s): ${invalidFields.join(",")}`
-    })
+    });
   }
-  next()
+  next();
 }
 
 async function checkId(req, res, next){
-  const reservationId = req.params.reservation_id
-  const data = await reservationsService.read(reservationId)
+  const reservationId = req.params.reservation_id;
+  const data = await reservationsService.read(reservationId);
   if(data){
-    res.locals.reservation = data
-    next()
+    res.locals.reservation = data;
+    next();
   } else {
     next({
       status:404,
@@ -148,13 +154,24 @@ function checkUpdatedStatus(req, res, next){
   return next()
 }
 
+async function checkParams(req, res, next){
+  const { date, mobile_number } = req.query
+  let data
+  if(date){
+    data = await reservationsService.list(date)
+  }
+  if(mobile_number){
+    data = await reservationsService.search(mobile_number)
+  }
+  res.locals.data = data
+  next()
+}
+
 function read(req, res, next){
   res.json({ data: res.locals.reservation})
 }
 async function list(req, res) {
-  const date = req.query.date
-  const data = await reservationsService.list(date)
-  res.json({ data });
+  res.json( { data: res.locals.data });
 }
 
 async function create(req, res, next){
@@ -170,7 +187,7 @@ async function update(req,res,next){
 }
 
 module.exports = {
-  list: asyncErrorBoundary(list),
+  list: [checkParams, asyncErrorBoundary(list)],
   create: [hasOnlyValidProperties,
            hasRequiredProperties, 
            checkDate, 

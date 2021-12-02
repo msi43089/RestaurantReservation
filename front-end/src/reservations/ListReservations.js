@@ -1,10 +1,12 @@
 import React from "react";
 import Reservation from "./Reservation";
 
-function ListReservations({reservations}){
+function ListReservations({reservations, search}){
 
+    console.log(`teset`, reservations)
+    console.log(search)
     const reservation = reservations.map((res, index) => {
-      return (res.status !== "finished" ?
+      return (res.status !== "finished" || search ?
          <Reservation reservation={res} key={index} /> : null
       )
     })

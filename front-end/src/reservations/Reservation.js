@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 
 function Reservation({reservation}){
 
+  
+
   return   (
         <tr>
           <th scope="row">{reservation.first_name}</th>
@@ -18,7 +20,8 @@ function Reservation({reservation}){
               <button href={`/reservations/${reservation.reservation_id}/seat`} className="btn btn-primary">Seat</button>
             </Link>
           </th> : null}
-        </tr> )
+        </tr> 
+    )
 
 }
 
