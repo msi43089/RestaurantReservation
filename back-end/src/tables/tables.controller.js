@@ -8,7 +8,6 @@ const hasTableName = hasProperties(["table_name"])
 const hasReservationId = hasProperties(["reservation_id"])
 
 async function checkTableExists(req, res, next){
-    console.log("test table exists")
     const { table_id } = req.params
     const table = await tablesService.read(Number(table_id))
     if(table){
@@ -21,7 +20,6 @@ async function checkTableExists(req, res, next){
 }
 
 function checkOccupied(req, res, next){
-    console.log("test occupied")
     if(res.locals.table.status !== "occupied"){
         next({
             status: 400,

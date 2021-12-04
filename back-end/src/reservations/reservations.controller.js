@@ -139,7 +139,8 @@ function checkUpdatedStatus(req, res, next){
   if(
     status !== "booked" && 
     status !== "seated" &&
-    status !== "finished"){
+    status !== "finished" &&
+    status !== "cancelled"){
     next({
       status: 400,
       message: `Invalid Status: ${status}`

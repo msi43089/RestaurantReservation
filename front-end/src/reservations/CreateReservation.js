@@ -1,13 +1,15 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import { useHistory } from "react-router"
 import { postReservations } from "../utils/api"
 import ReservationForm from "./ReservationForm"
 import ReservationError from "./ReservationError"
+import { readReservation } from "../utils/api"
 
 
-function CreateReservation (){
+function CreateReservation ({reservation_id}){
 
     const history = useHistory()
+    
     const initialState = {
         first_name: "",
         last_name: "",
@@ -19,6 +21,21 @@ function CreateReservation (){
     const [formData, setFormData ] = useState({...initialState})
     const [errors, setErrors] = useState([])
 
+    //API - read reservation by reservation id Paramater
+    useEffect(() => {
+        const abortController = new AbortController()
+        if(reservation_id){
+        async function getReservation(){
+            const data = await readReservation(reservation_id)
+            setFormData(data)
+        }
+        getReservation()
+        }
+        return () => abortController.abort()
+    }, [reservation_id])
+
+  
+// hand change to form data
     function handleChange({target}){
         setFormData({...formData,
             [target.id]: target.value})

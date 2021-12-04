@@ -12,17 +12,6 @@ function Seat(){
     const { reservation_id } = useParams();
     const history = useHistory()
 
-    //API call to update seat status on page load
- /*   useEffect(() => {
-        const abortController = new AbortController()
-        async function seatReservation(){
-            await updateReservationStatus(reservation_id, "seated")
-        }
-        seatReservation()
-        return () => abortController.abort()
-    }, [reservation_id])*/
-
-    //API call tables to select 
     useEffect(() => {
         const abortController = new AbortController();
         async function getTables() {

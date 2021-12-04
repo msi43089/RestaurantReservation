@@ -1,9 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router";
 
-export default function ReservationForm({submitHandler, handleChange, formData}){
+export default function ReservationForm({ submitHandler, handleChange, formData}){
 
     const history = useHistory()
+
+
+    console.log(formData)
+    
 
     return(
     <form onSubmit={submitHandler}>
@@ -15,7 +19,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         id="first_name" 
                         placeholder="Enter First Name"
                         onChange={handleChange}
-                        value={formData.firstName} 
+                        value={formData.first_name} 
                         required />
             </div>
             <div className="form-group">
@@ -26,7 +30,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         id="last_name" 
                         placeholder="Enter Last Name"
                         onChange={handleChange}
-                        value={formData.lastName}
+                        value={formData.last_name}
                         required />
             </div>
             <div className="form-group">
@@ -37,7 +41,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         id="mobile_number" 
                         placeholder="xxx-xxx-xxxx" 
                         onChange={handleChange}
-                        value={formData.mobileNumber}
+                        value={formData.mobile_number}
                         required/>
             </div>
             <div className="form-group">
@@ -49,7 +53,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         placeholder="YYYY-MM-DD"
                         pattern="\d{4}-\d{2}-\d{2}"
                         onChange={handleChange}
-                        value={formData.date}
+                        value={formData.reservation_date}
                         required />
             </div>
             <div className="form-group">
@@ -61,7 +65,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         placeholder="HH:MM" 
                         pattern="[0-9]{2}:[0-9]{2}"
                         onChange={handleChange}
-                        value={formData.time} 
+                        value={formData.reservation_time} 
                         required/>
             </div>
             <div className="form-group">
@@ -72,7 +76,7 @@ export default function ReservationForm({submitHandler, handleChange, formData})
                         id="people" 
                         placeholder="Enter Party Size"
                         onChange={handleChange}
-                        value={formData.size} 
+                        value={formData.people} 
                         min="1" 
                         required/>
             </div>

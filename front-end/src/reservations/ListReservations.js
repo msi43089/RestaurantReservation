@@ -3,12 +3,9 @@ import Reservation from "./Reservation";
 
 function ListReservations({reservations, search}){
 
-    console.log(`teset`, reservations)
-    console.log(search)
+
     const reservation = reservations.map((res, index) => {
-      return (res.status !== "finished" || search ?
-         <Reservation reservation={res} key={index} /> : null
-      )
+      return <Reservation reservation={res} key={index} /> 
     })
     
     return(
@@ -24,6 +21,8 @@ function ListReservations({reservations, search}){
             <th scope="col">Party Size</th>
             <th scope="col">Seat</th>
             <th scope="col">Status</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Cancel</th>
           </tr>
         </thead>
         <tbody>

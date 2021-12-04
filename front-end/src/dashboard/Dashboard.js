@@ -59,6 +59,7 @@ function Dashboard({ date }) {
   function handleNext(){
     const nextDate = next(date)
     history.push(`/dashboard?date=${nextDate}`)
+    
   }
 
 
