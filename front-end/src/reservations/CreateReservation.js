@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react"
 import { useHistory } from "react-router"
-import { postReservations } from "../utils/api"
+import { postReservations, updateReservationStatus } from "../utils/api"
 import ReservationForm from "./ReservationForm"
 import ReservationError from "./ReservationError"
 import { readReservation } from "../utils/api"
+import { updateReservation } from "../utils/api"
+
 
 
 function CreateReservation ({reservation_id}){
@@ -27,12 +29,15 @@ function CreateReservation ({reservation_id}){
         if(reservation_id){
         async function getReservation(){
             const data = await readReservation(reservation_id)
-            setFormData(data)
+            let formatedDate = data.reservation_date.split("T")[0]
+            
+            setFormData({...data, reservation_date: formatedDate})
         }
         getReservation()
         }
         return () => abortController.abort()
     }, [reservation_id])
+
 
   
 // hand change to form data
@@ -42,12 +47,13 @@ function CreateReservation ({reservation_id}){
     }
 
     function validateForm(form){
-        setErrors(null)
+        setErrors([])
         const trueDate = new Date(`${form.reservation_date}T${form.reservation_time}`)
         const currentDateInMs = Date.now()
         const inputDateInMs = trueDate.getTime()
         let errorFound = false
         let errorArray = []
+        console.log(form)
 
         if(inputDateInMs < currentDateInMs){
             errorArray.push("Invalid date: Must be a future date!")
@@ -76,13 +82,23 @@ function CreateReservation ({reservation_id}){
         const abortController = new AbortController()
         async function postData(){
             await postReservations(formData, abortController.signal)
+            history.push(`/dashboard?date=${formData.reservation_date}`)
+        }
+        async function putData(){
+            await updateReservation(formData, abortController.signal)
+            history.push(`/dashboard?date=${formData.reservation_date}`)
         }
         if(validate){
+            if(reservation_id){
+                putData()   
+            } else {
             postData()
-            history.push(`/dashboard?date=${formData.reservation_date}`)
+            
+            }
         }
     }
 
+    console.log(formData)
     return (
         <>
         <h1>Create Reservation</h1>

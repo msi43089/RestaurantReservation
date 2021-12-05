@@ -145,8 +145,18 @@ export async function updateReservationStatus(reservation_id, status, signal){
   return await fetchJson(url, options, [])
 }
 
-
 export async function findByMobile(mobile_number, signal){
   const url = new URL(`${API_BASE_URL}/reservations?mobile_number=${mobile_number}`)
   return await fetchJson( url, { signal })
+}
+
+export async function updateReservation(reservation, signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation.reservation_id}`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: reservation}),
+    signal
+  }
+  return await fetchJson(url, options, [])
 }

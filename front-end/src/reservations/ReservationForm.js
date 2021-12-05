@@ -6,7 +6,7 @@ export default function ReservationForm({ submitHandler, handleChange, formData}
     const history = useHistory()
 
 
-    console.log(formData)
+ 
     
 
     return(

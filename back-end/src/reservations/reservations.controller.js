@@ -9,7 +9,10 @@ const validProperties = [
   "reservation_date",
   "reservation_time",
   "people",
-  "status"
+  "status",
+  "reservation_id",
+  "created_at",
+  "updated_at"
 ];
 
 const hasRequiredProperties = hasProperties([
@@ -182,7 +185,7 @@ async function create(req, res, next){
 
 async function update(req,res,next){
   const reservation = res.locals.reservation
-  const updatedReservation = {...reservation, status: req.body.data.status }
+  const updatedReservation = {...reservation, ...req.body.data }
   await reservationsService.update(updatedReservation)
   res.status(200).json({ data: updatedReservation })
 }
@@ -200,5 +203,18 @@ module.exports = {
            checkDefaultStatus,
            asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(checkId), read],
+  updatedReservation: [
+           asyncErrorBoundary(checkId),
+           hasOnlyValidProperties,
+           hasRequiredProperties, 
+           checkDate, 
+           checkTime, 
+           isNumber, 
+           dateIsInFuture,
+           checkIfTuesday,
+           checkIfOpen,
+           checkDefaultStatus,
+           update
+  ],
   update: [asyncErrorBoundary(checkId), checkUpdatedStatus, update]
 };
