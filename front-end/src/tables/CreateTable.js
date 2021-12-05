@@ -30,9 +30,10 @@ function CreateTable(){
           //          capacity: Number(formData.capacity)})
         async function postData(){
             await postTables(formData, abortController.signal)
+            history.push(`/dashboard`)
         }
             postData()
-            history.push(`/dashboard`)
+            
     }
 
   

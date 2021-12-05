@@ -60,11 +60,12 @@ function Seat(){
         }
         async function seatReservation(){
             await updateReservationStatus(reservation_id, "seated")
+            history.push("/dashboard")
         }
         if(validate){
             seatTable()
             seatReservation()
-            history.push("/dashboard")
+            
         }
     }
 
