@@ -3,8 +3,6 @@ import FinishTable from "./FinishTable";
 
 function Table({table}){
    
-
-   
    return ( 
     <tr>
         <th scope="row">{table.table_name}</th>

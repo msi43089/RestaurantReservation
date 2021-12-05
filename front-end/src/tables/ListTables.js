@@ -9,7 +9,18 @@ function ListTables({tables}){
     return <Table table={table} key={index} />
   })
 
-    return(
+   /* return(
+        <>
+        <hr/>
+        <h3 className="text-center">Tables</h3>
+        <div className="row">
+            {tableList}
+        </div>
+      
+      </>
+      )*/
+
+      return(
         <>
         <hr/>
         <h3 className="text-center">Tables</h3>
@@ -17,7 +28,7 @@ function ListTables({tables}){
         <thead>
           <tr>
             <th scope="col">Table Name</th>
-            <th scope="col">Table Capacity</th>
+            <th scope="col">Table Max</th>
             <th scope="col" >Occupied</th>
             <th scope="col">Finish</th>
           </tr>
@@ -28,6 +39,7 @@ function ListTables({tables}){
       </table>
       </>
       )
+
 }
 
 export default ListTables

@@ -65,13 +65,11 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
-      </div>
+      <h1 className="text-center">Dashboard</h1>
       <ErrorAlert error={reservationsError} />
       <div className="d-flex justify-content-between mb-2">
         <button type="button" className="btn btn-outline-secondary" onClick={(handlePrevious)}>Previous</button>
+        <h4 className="mb-0 text-center">Reservations for {date}</h4>
         <button type="button" className="btn btn-outline-secondary" onClick={handleNext}>Next</button>
       </div>
       <ListReservations reservations={reservations} />

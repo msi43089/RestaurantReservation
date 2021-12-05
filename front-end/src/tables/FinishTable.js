@@ -28,16 +28,16 @@ function FinishTable({table}){
 
     if(table.status === "occupied"){
         return (
-            <th 
+            <th
             type="button" 
             data-table-id-finish={table.table_id} 
             className= "btn btn-danger"
-            onClick={handleFinish}>
+            onClick={handleFinish} >
                 Finish
             </th>
         )
     } else {
-        return null
+        return <th></th>
     }
 }
 

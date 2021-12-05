@@ -36,13 +36,13 @@ return (
         <ReservationError errors={searchError} />
     <h1>Search By Phone Number</h1>
         <div className="input-group">
-            <div className="w-50 form-outline">
+            <div className="w-md-50 form-outline">
                 <input 
                     type="search"
                     id="mobile_number"
                     className="form-control"
                     name="mobile_number"
-                    placeholder="Enter a customer's phone number"
+                    placeholder="xxx-xxx-xxxx"
                     onChange={handleChange}
                     value={mobile}
                     />

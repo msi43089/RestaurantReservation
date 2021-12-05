@@ -65,7 +65,7 @@ function CreateTable(){
                             required />
                 </div>
                 <div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary mr-2">Submit</button>
                     <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
                 </div>
         </form>
