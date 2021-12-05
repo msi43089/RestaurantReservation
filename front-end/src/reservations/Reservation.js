@@ -21,29 +21,25 @@ function Reservation({reservation}){
     }
   }
 
-  return   (
-    
-        <tr>
-          <th scope="row">{reservation.first_name}</th>
-          <th>{reservation.last_name}</th>
-          <th>{reservation.mobile_number}</th>
-          <th>{reservation.reservation_date}</th>
-          <th>{reservation.reservation_time}</th>
-          <th>{reservation.people}</th>
-          <th data-reservation-id-status={reservation.reservation_id}>{reservation.status}</th>
-          {reservation.status === "booked" ? 
-          <>
-          <th>
+  return (
+    <div className="col-12 col-md-6 col-xl-4 mb-2">
+    <div className="card">
+      <div className="card-header">Reservation for {reservation.first_name} {reservation.last_name}</div>
+      <div>
+        <div className="card-body">
+          <p>Reservation Time: {reservation.reservation_time}</p>
+          <p>Phone Number: {reservation.mobile_number}</p>
+          <p>People: {reservation.people}</p>
+          <p data-reservation-id-status={reservation.reservation_id}>Status: {reservation.status}</p>
+        </div>
+        {reservation.status === "booked" ? 
+        <div className="text-center">
             <Link to={`/reservations/${reservation.reservation_id}/seat`} >
               <button href={`/reservations/${reservation.reservation_id}/seat`} className="btn btn-primary">Seat</button>
             </Link>
-          </th>
-          <th>
             <Link to={`/reservations/${reservation.reservation_id}/edit`} >
-              <button href={`/reservations/${reservation.reservation_id}/edit`} className="btn btn-secondary">Edit</button>
+              <button href={`/reservations/${reservation.reservation_id}/edit`} className="btn btn-secondary m-2">Edit</button>
             </Link>
-          </th>
-          <th>
             <button
              className="btn btn-danger"
              data-reservation-id-cancel={reservation.reservation_id}
@@ -51,11 +47,11 @@ function Reservation({reservation}){
              > 
              Cancel
              </button>
-          </th>
-           </> : null}
-        </tr> 
-    
-    )
+        </div> : null}
+      </div>
+    </div>
+    </div>
+  )
   
 }
 

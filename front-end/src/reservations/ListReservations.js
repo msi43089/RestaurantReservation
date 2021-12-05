@@ -7,31 +7,14 @@ function ListReservations({reservations, search}){
       return <Reservation reservation={res} key={index} /> 
     })
 
-    
-    return(
-        <>
-
-      <table className="table mt-5">
-        <thead>
-          <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Mobile Number</th>
-            <th scope="col">Reservation Date</th>
-            <th scope="col">Reservation Time</th>
-            <th scope="col">Party Size</th>
-            <th scope="col">Seat</th>
-            <th scope="col">Status</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Cancel</th>
-          </tr>
-        </thead>
-        <tbody>
+    return (
+      <>
+      <div className="row">
           {reservation}
-        </tbody>
-      </table>
+        </div>
       </>
     )
+  
 }
 
 export default ListReservations
