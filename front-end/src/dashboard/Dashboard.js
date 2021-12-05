@@ -76,7 +76,6 @@ function Dashboard({ date }) {
       </div>
       <ListReservations reservations={reservations} />
       <ListTables tables={tables} />
-
     </main>
   );
 }

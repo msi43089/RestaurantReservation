@@ -20,7 +20,6 @@ function Reservation({reservation}){
     seatReservation()
     }
   }
-  
 
   return   (
     
@@ -57,7 +56,7 @@ function Reservation({reservation}){
         </tr> 
     
     )
-
+  
 }
 
 export default Reservation

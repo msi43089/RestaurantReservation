@@ -11,7 +11,9 @@ function ListTables({tables}){
 
     return(
         <>
-      <table className="table mt-5">
+        <hr/>
+        <h3 className="text-center">Tables</h3>
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Table Name</th>

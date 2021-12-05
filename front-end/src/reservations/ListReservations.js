@@ -3,14 +3,15 @@ import Reservation from "./Reservation";
 
 function ListReservations({reservations, search}){
 
-
     const reservation = reservations.map((res, index) => {
       return <Reservation reservation={res} key={index} /> 
     })
+
     
     return(
         <>
-      <table className="table">
+
+      <table className="table mt-5">
         <thead>
           <tr>
             <th scope="col">First Name</th>

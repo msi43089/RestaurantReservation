@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import { useHistory } from "react-router"
-import { postReservations, updateReservationStatus } from "../utils/api"
+import { postReservations } from "../utils/api"
 import ReservationForm from "./ReservationForm"
 import ReservationError from "./ReservationError"
 import { readReservation } from "../utils/api"
@@ -53,7 +53,7 @@ function CreateReservation ({reservation_id}){
         const inputDateInMs = trueDate.getTime()
         let errorFound = false
         let errorArray = []
-        console.log(form)
+       
 
         if(inputDateInMs < currentDateInMs){
             errorArray.push("Invalid date: Must be a future date!")
@@ -98,7 +98,7 @@ function CreateReservation ({reservation_id}){
         }
     }
 
-    console.log(formData)
+   
     return (
         <>
         <h1>Create Reservation</h1>
