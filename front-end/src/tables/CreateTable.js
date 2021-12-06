@@ -36,7 +36,7 @@ function CreateTable(){
 
     return(
         <>
-        <h1>Create a New Table</h1>
+        <h2 className="mt-2">Create a New Table</h2>
         <form onSubmit={submitHandler}>
                 <div className="form-group">
                     <label htmlFor="table-name">Table Name</label>

@@ -96,7 +96,7 @@ function CreateReservation (){
 
     return (
         <>
-            <h1>Create Reservation</h1>
+            <h2 className="mt-2">Create Reservation</h2>
                 <ReservationError errors={errors} />
                 <ReservationForm submitHandler={submitHandler} handleChange={handleChange} formData={formData} />
         </>

@@ -71,7 +71,7 @@ function Seat(){
     return (
         <>
         <ReservationError errors={errors} />
-        <h1>Please select a Table</h1>
+        <h2 className="mt-2">Please select a Table</h2>
         <form onSubmit={handleSumbit}>
             <div className="form-group">
                 <label htmlFor="table_id">
@@ -91,7 +91,7 @@ function Seat(){
                 </label>
             </div>
             <div>
-                <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="btn btn-primary mr-2" type="submit">Submit</button>
                 <button className="btn btn-secondary" type="button" onClick={() => history.goBack()}>Cancel</button>
             </div>
         </form>
