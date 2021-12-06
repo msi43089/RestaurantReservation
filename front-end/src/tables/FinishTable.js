@@ -1,30 +1,25 @@
 import React from "react";
 import { deleteTable, updateReservationStatus } from "../utils/api";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 function FinishTable({table}){
 
-    const history = useHistory()
+    const history = useHistory();
 
     function handleFinish(event){
-        event.preventDefault()
-       
+        event.preventDefault();
         if(window.confirm("Is this table ready to seat new guests? This cannot be undone.")){
             async function clearTable(){
-                await deleteTable(table.table_id)
+                await deleteTable(table.table_id);
             }
             async function finishReservation(){
-                await updateReservationStatus(table.reservation_id, "finished")
-                
+                await updateReservationStatus(table.reservation_id, "finished");
             }
-            finishReservation()
-            clearTable()
-            
+            finishReservation();
+            clearTable();
         } 
-        history.go("/dashboard")
+        history.go("/dashboard");
     }
-
-    
 
     if(table.status === "occupied"){
         return (

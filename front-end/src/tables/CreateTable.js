@@ -1,42 +1,39 @@
 import React, {useState } from "react";
-import { useHistory } from "react-router-dom"
-import { postTables } from "../utils/api"
+import { useHistory } from "react-router-dom";
+import { postTables } from "../utils/api";
 
 function CreateTable(){
 
-    const history = useHistory()
+    const history = useHistory();
+
     const initialState = {
         table_name: "",
         capacity: ""
     }
-    const [formData, setFormData] = useState({...initialState})
+
+    const [formData, setFormData] = useState({...initialState});
 
     function handleNameChange({target}){
         setFormData({...formData,
-            [target.id]: target.value})
+            [target.id]: target.value});
     }
 
     function handleCapacityChange({target}){
-
         setFormData({...formData,
-            [target.id]: Number(target.value)})
+            [target.id]: Number(target.value)});
     }
 
     //API - Post form data
     function submitHandler(event){
-        event.preventDefault()
-        const abortController = new AbortController()
-        //setFormData({...formData, 
-          //          capacity: Number(formData.capacity)})
+        event.preventDefault();
+        const abortController = new AbortController();
         async function postData(){
-            await postTables(formData, abortController.signal)
-            history.push(`/dashboard`)
+            await postTables(formData, abortController.signal);
+            history.push(`/dashboard`);
         }
-            postData()
-            
+            postData();
     }
 
-  
     return(
         <>
         <h1>Create a New Table</h1>

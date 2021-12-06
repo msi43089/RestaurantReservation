@@ -1,23 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom";
 import { updateReservationStatus } from "../utils/api";
-import { useHistory } from "react-router-dom"
-
-
 
 function Reservation({reservation}){
 
-  const history = useHistory()
+  const history = useHistory();
 
   function handleClick(event){
     event.preventDefault()
-    let message = window.confirm("Do you want to cancel this reservation? This cannot be undone.")
+    let message = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
     if(message){
       async function seatReservation(){
-        await updateReservationStatus(reservation.reservation_id, "cancelled")
-        history.go(0)
+        await updateReservationStatus(reservation.reservation_id, "cancelled");
+        history.go(0);
     }
-    seatReservation()
+    seatReservation();
     }
   }
 
@@ -52,7 +49,6 @@ function Reservation({reservation}){
     </div>
     </div>
   )
-  
 }
 
 export default Reservation

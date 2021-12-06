@@ -1,34 +1,32 @@
-import React, { useState } from "react"
-import ListReservation from "../reservations/ListReservations"
-import ReservationError from "../reservations/ReservationError"
-import { findByMobile } from "../utils/api"
+import React, { useState } from "react";
+import ListReservation from "../reservations/ListReservations";
+import ReservationError from "../reservations/ReservationError";
+import { findByMobile } from "../utils/api";
 
 function Search(){
 
-    const search = true
-    const [ mobile, setMobile ] = useState("")
-    const [ reservations, setReservations ] = useState([])
-    const [ searchError, setSearchError ] = useState([])
+    const [ mobile, setMobile ] = useState("");
+    const [ reservations, setReservations ] = useState([]);
+    const [ searchError, setSearchError ] = useState([]);
 
     function handleChange({target}){
-        setMobile(target.value)
+        setMobile(target.value);
     }
 
     function handleSubmit(event){
-        event.preventDefault()
-        const abortController = new AbortController()
+        event.preventDefault();
+        const abortController = new AbortController();
         async function getReservationByNumber(){
-            const response = await findByMobile(mobile)
+            const response = await findByMobile(mobile);
             if(response.length){
-                setReservations(response)
+                setReservations(response);
             } else {
-                setSearchError(["No reservations found"])
+                setSearchError(["No reservations found"]);
             }
         }
-        getReservationByNumber()
-        return () => abortController.abort()
+        getReservationByNumber();
+        return () => abortController.abort();
     }
-
 
 return (
     <>
@@ -60,7 +58,7 @@ return (
         </div>
     </div>
     {reservations.length !== 0 ?
-        <ListReservation reservations={reservations} search={search}/> : null}
+        <ListReservation reservations={reservations}/> : null}
     </>
     )
 }

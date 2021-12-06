@@ -7,10 +7,10 @@ function Seat(){
 
     const [ tables, setTables ] = useState([]);
     const [ tableId, setTableId ] = useState();
-    const [ reservation, setReservation ] = useState({})
-    const [ errors, setErrors ] = useState([])
+    const [ reservation, setReservation ] = useState({});
+    const [ errors, setErrors ] = useState([]);
     const { reservation_id } = useParams();
-    const history = useHistory()
+    const history = useHistory();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -24,26 +24,26 @@ function Seat(){
 
     //API - read reservation by reservation id Paramater
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = new AbortController();
         async function getReservation(){
-            const data = await readReservation(reservation_id)
-            setReservation(data)
+            const data = await readReservation(reservation_id);
+            setReservation(data);
         }
-        getReservation()
-        return () => abortController.abort()
+        getReservation();
+        return () => abortController.abort();
     }, [reservation_id])
 
-    //validate table capacity is suffecient
+    //validate table capacity is sufficient
     function validateCapacity(){
-        const selectedTable = tables.find(table => Number(tableId) === table.table_id)
-        let errorsArray = []
-        let errorFound = false
+        const selectedTable = tables.find(table => Number(tableId) === table.table_id);
+        let errorsArray = [];
+        let errorFound = false;
         if(reservation.people > selectedTable.capacity){
-            errorsArray = [...errorsArray, "Table capacity is not sufficeint"]
-            errorFound = true
+            errorsArray = [...errorsArray, "Table capacity is not sufficeint"];
+            errorFound = true;
         } 
-        setErrors(errorsArray)
-        return !errorFound
+        setErrors(errorsArray);
+        return !errorFound;
     }
 
     //set TableID state to the the Table_id of selected table
@@ -54,22 +54,19 @@ function Seat(){
     //API call on submit to update selected table to occupied 
     function handleSumbit(event){
         event.preventDefault();
-        const validate = validateCapacity()
+        const validate = validateCapacity();
         async function seatTable(){
-            return await updateTables(tableId, reservation_id)
+            await updateTables(tableId, reservation_id);
         }
         async function seatReservation(){
-            await updateReservationStatus(reservation_id, "seated")
-            history.push("/dashboard")
+            await updateReservationStatus(reservation_id, "seated");
+            history.push("/dashboard");
         }
         if(validate){
-            seatTable()
-            seatReservation()
-            
+            seatTable();
+            seatReservation();
         }
     }
-
-
 
     return (
         <>

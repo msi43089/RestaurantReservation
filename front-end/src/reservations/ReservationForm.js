@@ -3,14 +3,10 @@ import { useHistory } from "react-router";
 
 export default function ReservationForm({ submitHandler, handleChange, formData}){
 
-    const history = useHistory()
-
-
- 
-    
+    const history = useHistory();
 
     return(
-    <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler}>
             <div className="form-group">
                 <label htmlFor="first-name">First Name</label>
                 <input  name="first_name"

@@ -15,8 +15,7 @@ import ListTables from "../tables/ListTables";
  */
 function Dashboard({ date }) {
 
-
-  const history = useHistory()
+  const history = useHistory();
 
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
@@ -45,28 +44,26 @@ function Dashboard({ date }) {
     const abortController = new AbortController();
     listTables()
       .then(setTables)
-      .catch(setReservationsError)
-      return () => abortController.abort()
+      .catch(setReservationsError);
+      return () => abortController.abort();
   }, [])
 
   //changes url to previous day, calling listReservations again
   function handlePrevious(){
-      const previousDate = previous(date)
-      history.push(`/dashboard?date=${previousDate}`)
+    const previousDate = previous(date);
+    history.push(`/dashboard?date=${previousDate}`);
   }
 
   //changes url to next day, calling listReservations again
   function handleNext(){
-    const nextDate = next(date)
-    history.push(`/dashboard?date=${nextDate}`)
-    
+    const nextDate = next(date);
+    history.push(`/dashboard?date=${nextDate}`);
   }
-
 
   return (
     <main>
       <h1 className="text-center">Dashboard</h1>
-      <ErrorAlert error={reservationsError} />
+        <ErrorAlert error={reservationsError} />
       <div className="d-flex justify-content-between mb-2">
         <button type="button" className="btn btn-outline-secondary" onClick={(handlePrevious)}>Previous</button>
         <h4 className="mb-0 text-center">Reservations for {date}</h4>
