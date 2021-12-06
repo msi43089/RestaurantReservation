@@ -1,51 +1,23 @@
-<<<<<<< HEAD
-# Capstone: Restaurant Reservation System
 
-> You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
-> The software is used only by restaurant personnel when a customer calls to request a reservation.
-> At this point, the customers will not access the system online.
+#  Restaurant Reservation System
 
-There are no user stories for deployment: it is expected that you will deploy the application to production after you finish a user story.
+The application allows the user to manage reservations at their restaurant. It gives the user the abilty to add, edit and delete reservations. It also lets them create the tables that are available at their restaurant, and assign reservations to tables. This will allow the use to manage seating capacity in the restaurant. 
 
-There are no user stories for logging: it is expected that you will add logging to the application with enough detail to help you diagnose issues in production.
+## API Endpoints
 
-## Existing files
 
-This repository is set up as a *monorepo*, meaning that the frontend and backend projects are in one repository. This allows you to open both projects in the same editor.
-
-As you work through the user stories listed later in this document, you will be writing code that allows your frontend and backend applications to talk to each other. You will also write code to allow your controllers and services to connect to, and query, your PostgreSQL database via [Knex](http://knexjs.org/).
-
-The table below describes the folders in this starter repository:
-
-| Folder/file path | Description                                                      |
-| ---------------- | ---------------------------------------------------------------- |
-| `./back-end`     | The backend project, which runs on `localhost:5000` by default.  |
-| `./front-end`    | The frontend project, which runs on `localhost:3000` by default. |
-
-This starter code closely follows the best practices and patterns established in the Robust Server Structure module.
-
-**Note**: Please do not submit a pull request to this repository with your solution.
-
-### Backend Existing files
-
-The `./back-end` folder contains all the code for the backend project.
-
-The table below describes the existing files in the `./back-end` folder:
-
-| Folder/file path                                         | Description                                                                                                         |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `./back-end/knexfile.js`                                 | The Knex configuration file. You will not need to make changes to this file.                                        |
-| `./back-end/src/app.js`                                  | Defines the Express application and connects routers.                                                               |
-| `./back-end/src/db/connection.js`                        | The Knex connection file. You will not need to make changes to this file.                                           |
-| `./back-end/src/db/migrations`                           | The Knex migrations folder.                                                                                         |
-| `./back-end/src/db/seeds/`                               | The Knex seeds folder.                                                                                              |
-| `./back-end/src/errors/errorHandler.js`                  | Defined an Express API error handler.                                                                               |
-| `./back-end/src/errors/notFound.js`                      | Defined an Express API "not found" handler.                                                                         |
-| `./back-end/src/reservations/reservations.controller.js` | A controller for the reservations resource.                                                                         |
-| `./back-end/src/reservations/reservations.router.js`     | A router for the reservations resource.                                                                             |
-| `./back-end/src/server.js`                               | Defines the node server.                                                                                            |
-| `./back-end/test`                                        | A folder that contains all of the integration tests. You will not need to make changes to the files in this folder. |
-| `./back-end/vercel.json`                                 | A vercel deployment configuration file. You will not need to make changes to this file.                             |
+|           URL                               |      Method         |   Description                                                                                       |							
+| ------------------------------------------------- | --------------------|----------------------------------------------------------------------------------------------- |
+| `/reservations `                                  | POST                | Creates a new reservations                              				           |
+| `/reservations?date=YYYY-MM-DD`                   | GET                 | Lists reservations for the date param                                                          |
+| `/reservations?mobile_number=XXX-XXX-XXXX`	    | GET		  | Lists reservations for the phone number param						   |
+| `/reservations/:reservation_id`   	  	    | GET		  | Gets reservation for specific ID								   |
+| `/reservations/:reservation_id`		    | PUT		  | Updates reservation for a specific ID							   |
+| `/reservations/:reservation_id/status`	    | PUT		  | Updates the reservation status of a specific reservation					   |
+| `/tables`					    | GET		  | Lists all tables										   |
+| `/tables`					    | POST		  | Creates a new table										   |
+| `/tables/:table_id/seat`			    | PUT		  | Assigns a reservation to a table								   |
+| `/tables/:table_id/seat`			    | DELETE		  | Removes a reservation from a table								   |
 
 ### Frontend Existing files
 
