@@ -8,8 +8,6 @@ function CreateReservation (){
 
     const history = useHistory();
     const { reservation_id } = useParams()
-
-    console.log(reservation_id)
     
     const initialState = {
         first_name: "",
