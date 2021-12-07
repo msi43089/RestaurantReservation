@@ -2,3 +2,36 @@
   background-color: #393a44;
   min-width: 200px;
 }
+
+* {
+  font-family: "Nunito";
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+.card-header {
+  background-color: #5675a8;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.column-name {
+  background-color: #5675a8;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #5675a8;
+  border-color: #5675a8;
+}
+
+th {
+  font-weight: normal;
+}

@@ -7,7 +7,7 @@ function Reservation({reservation}){
   const history = useHistory();
 
   function handleClick(event){
-    event.preventDefault()
+    event.preventDefault();
     let message = window.confirm("Do you want to cancel this reservation? This cannot be undone.");
     if(message){
       async function seatReservation(){

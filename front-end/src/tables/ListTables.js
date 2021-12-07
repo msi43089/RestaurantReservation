@@ -14,10 +14,10 @@ function ListTables({tables}){
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Table Name</th>
-                <th scope="col">Table Max</th>
-                <th scope="col" >Occupied</th>
-                <th scope="col">Finish</th>
+                <th scope="col" className="column-name">Table Name</th>
+                <th scope="col" className="column-name">Table Max</th>
+                <th scope="col" className="column-name">Status</th>
+                <th scope="col" className="column-name">Finish</th>
               </tr>
           </thead>
           <tbody>

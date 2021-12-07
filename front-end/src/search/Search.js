@@ -32,7 +32,7 @@ return (
     <>
     <div>
         <ReservationError errors={searchError} />
-    <h1>Search By Phone Number</h1>
+    <h2 className="mt-2">Search By Phone Number</h2>
         <div className="input-group">
             <div className="w-md-50 form-outline">
                 <input 

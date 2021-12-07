@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listTables, updateTables, readReservation, updateReservationStatus } from "../utils/api";
+import { listTables, updateTables, readReservation } from "../utils/api";
 import { useParams, useHistory } from "react-router-dom";
 import ReservationError from "./ReservationError"
 
@@ -57,21 +57,17 @@ function Seat(){
         const validate = validateCapacity();
         async function seatTable(){
             await updateTables(tableId, reservation_id);
-        }
-        async function seatReservation(){
-            await updateReservationStatus(reservation_id, "seated");
             history.push("/dashboard");
         }
         if(validate){
             seatTable();
-            seatReservation();
         }
     }
 
     return (
         <>
         <ReservationError errors={errors} />
-        <h1>Please select a Table</h1>
+        <h2 className="mt-2">Please select a Table</h2>
         <form onSubmit={handleSumbit}>
             <div className="form-group">
                 <label htmlFor="table_id">

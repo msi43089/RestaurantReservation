@@ -9,8 +9,6 @@ function CreateReservation (){
     const history = useHistory();
     const { reservation_id } = useParams()
 
-    console.log(reservation_id)
-    
     const initialState = {
         first_name: "",
         last_name: "",
@@ -34,9 +32,7 @@ function CreateReservation (){
             setFormData({...data, reservation_date: formatedDate});
         }
         getReservation();
-        } else {
-            setFormData({...initialState})
-        }
+        } 
         return () => abortController.abort();
     }, [reservation_id]);
 
@@ -98,7 +94,7 @@ function CreateReservation (){
 
     return (
         <>
-            <h1>Create Reservation</h1>
+            <h2 className="mt-2">{reservation_id ? "Update Reservation" : "Create Reservation"}</h2>
                 <ReservationError errors={errors} />
                 <ReservationForm submitHandler={submitHandler} handleChange={handleChange} formData={formData} />
         </>
