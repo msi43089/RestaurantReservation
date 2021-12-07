@@ -8,6 +8,8 @@ function CreateReservation (){
 
     const history = useHistory();
     const { reservation_id } = useParams()
+
+    console.log(reservation_id)
     
     const initialState = {
         first_name: "",
@@ -96,7 +98,7 @@ function CreateReservation (){
 
     return (
         <>
-            <h2 className="mt-2">Create Reservation</h2>
+            <h1>Create Reservation</h1>
                 <ReservationError errors={errors} />
                 <ReservationForm submitHandler={submitHandler} handleChange={handleChange} formData={formData} />
         </>

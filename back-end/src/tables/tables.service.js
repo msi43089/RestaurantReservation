@@ -1,23 +1,23 @@
-const knex = require("../db/connection");
+const knex = require("../db/connection")
 
 function create (table){
     return knex("tables")
         .insert(table)
         .returning("*")
-        .then((records) => records[0]);
+        .then((records) => records[0])
 }
 
 function list (){
     return knex("tables")
         .select("*")
-        .orderBy("table_name");
+        .orderBy("table_name")
 }
 
 function read(table_id){
     return knex("tables")
         .select("*")
         .where({table_id: table_id})
-        .then(tablesArray => tablesArray[0]);
+        .then(tablesArray => tablesArray[0])
 }
 
 function update(updatedTable){
@@ -25,7 +25,7 @@ function update(updatedTable){
         .where({table_id: updatedTable.table_id})
         .update(updatedTable, "*")
         .returning("*")
-        .then(updated => updated[0]);
+        .then(updated => updated[0])
 }
 
 function destroy(updatedTable){
@@ -33,7 +33,7 @@ function destroy(updatedTable){
         .select("*")
         .where({table_id: updatedTable.table_id})
         .update(updatedTable, "*")
-        .then(updated => updated[0]);
+        .then(updated => updated[0])
 }
 
 module.exports = {

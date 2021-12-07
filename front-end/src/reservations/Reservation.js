@@ -30,7 +30,7 @@ function Reservation({reservation}){
           <p data-reservation-id-status={reservation.reservation_id}>Status: {reservation.status}</p>
         </div>
         {reservation.status === "booked" ? 
-        <div className="text-center card-bottom">
+        <div className="text-center">
             <Link to={`/reservations/${reservation.reservation_id}/seat`} >
               <button href={`/reservations/${reservation.reservation_id}/seat`} className="btn btn-primary">Seat</button>
             </Link>
